@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+
+
+    <h1>My Todo list</h1>
+    <form action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        {{ form.text }}
+        <input type="submit" value="Add">
+
+    </form>
+
+
+
+    {% for message in messages %}
+    <p class="alert alert-success mt-3">{{ message }}</p>
+    {% endfor %}
+
+
+    {% for item in items %}
+
+<ul>
+    {% if item.complete %}
+    <a href="{% url 'updateItem' item.id %}">
+        <div class="d-flex justify-content-between done">
+            
+            <li><i><s> {{ item }}</s></i></li>
+
+            
+            <span class="link"></span>
+            <a href="{% url 'deleteItem' item.id %}">&#10005;</a>
+        </div>
+    </a>
+    {% else %}
+    <a href="{% url 'updateItem' item.id %}" class="item">
+        <div class="d-flex justify-content-between pick">
+            
+            <strong><li>{{ item }}</li></strong>
+            <span class="link"></span>
+            <a href="{% url 'deleteItem' item.id %}" class="item">&#10005;</a>
+        </div>
+    </a>
+
+
+    {% endif %}
+</ul>
+
+   
+
+    {% endfor %}
+
+
+
+</div>
+
+{% endblock %}
